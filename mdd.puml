@@ -1,0 +1,58 @@
+@startuml MDD
+skinparam style strictuml
+skinparam ArrowThickness 2
+skinparam ArrowColor #gray
+hide empty members
+title Modèle du domaine (adapté pour l'Université)
+class Universite <<Organisation>> {
+  nom : String
+  adresse : String
+  // other attributes specific to the university
+}
+class Etudiant <<Role>> {
+  matricule : String
+  nom : String
+  prenom : String
+  // other attributes specific to the student
+}
+class Cours <<Description d'entité>> {
+  code : String
+  intitule : String
+  // other attributes specific to the course
+}
+class Inscription << Transaction >> {
+  // attributes specific to the inscription transaction
+}
+class GroupeCours <<Conteneur>> {
+  // attributes specific to the course group
+}
+class Trimestre <<Catalogue, Conteneur>> {
+  // attributes specific to the trimestre
+}
+class AgentAdministratif <<Rôle>> {
+  // attributes specific to the administrative agent
+}
+class Horaire <<Document administratif>> {
+  // attributes specific to the administrative agent
+}
+
+' associations
+Universite -- "1..*" Etudiant : offre-des-services-à  >
+Universite "1" -- "0..*" Cours : Offre-des >
+Cours -- "0..*" Cours : est-prealable >
+Etudiant "1" -- "0..*" Inscription : fait >
+GroupeCours "1" -- "0..*" Cours : regroupe-des >
+GroupeCours "0..*" -- "1" Trimestre : affiche-des >
+AgentAdministratif "1" -- "0..*" Trimestre : planifie >
+Inscription "1" -- "1" Trimestre : selectionne-prochain >
+Inscription "1" -- "1" Horaire : genere >
+@enduml
+
+
+
+
+
+
+
+
+

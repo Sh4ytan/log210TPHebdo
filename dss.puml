@@ -1,0 +1,31 @@
+@startuml
+skinparam style strictuml
+skinparam defaultfontname Verdana
+skinparam sequence {
+    MessageAlign center
+}
+title DSS - Scenario d'inscription d'un Étudiant à un trimestre  
+
+actor ":Etudiant" as e
+participant ":SystemeInscription" as si
+
+e->si: demarrerInscription(adresseIP)
+
+loop "Inscription en cours"
+    e->si: saisirCours(cours)
+    e<<--si: prealable et groupe
+
+    loop "Selectionner un groupeCours"
+        e->si: selectionnerGroupeCours(groupeCours)
+        e<<--si: horaire du groupe pour le cours
+    end loop
+
+    e->si: ajouterGroupeCours(groupeCours)
+    e<<--si: ajout du GroupeCours avec succes
+end loop
+
+e->si: accepterChoixInscription
+e<<--si: demander de s'authentifier
+
+e->si: confirmerInscription(cleEtudiant)
+@enduml
