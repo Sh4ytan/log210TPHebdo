@@ -10,22 +10,72 @@ actor ":Etudiant" as e
 participant ":SystemeInscription" as si
 
 e->si: demarrerInscription(adresseIP)
+    note right 
+        <b>Operation:</b> demarrerInscription(adresseIP: String)
+        <b>Precondition:</b> aucune
+        <b>Postcondition:</b> 
+            - instance <i>inscription</i> a ete creee;
+            - inscription.adresseIP est devenu adresseIP;
+    end note
 
 loop "Inscription en cours"
     e->si: saisirCours(cours)
-    e<<--si: prealable et groupe
+        note right 
+            <b>Operation:</b> saisirCours(cours: Cours)
+            <b>Precondition:</b>
+            - adresseIP vérifiée
+            - inscription en cours
+            <b>Postcondition:</b> 
+                - instance <i>ArrayList</i> des préalables;
+                - Afficher les groupes associés;
+        end note
+    e<<--si: prealable et groupe        
 
     loop "Selectionner un groupeCours"
-        e->si: selectionnerGroupeCours(groupeCours)
+        e->si: saisirGroupeCours(groupeCours)
+            note right 
+                <b>Operation:</b> saisirGroupeCours(groupeCours: groupeCours)
+                <b>Precondition:</b>
+                - Inscription en cours
+                - prealables du cours obtenus
+                <b>Postcondition:</b> 
+                    - instance <i>ArrayList </i>des horaires des groupes cours
+                    avec places disponibles;     
+            end note
         e<<--si: horaire du groupe pour le cours
     end loop
 
     e->si: ajouterGroupeCours(groupeCours)
+        note right 
+            <b>Operation:</b> ajouterGroupeCours(groupeCours: GroupeCours)
+            <b>Precondition:</b>
+            - Inscription en cours
+            - groupeCours avec place disponible
+            <b>Postcondition:</b> 
+                - instance <i>ArrayList </i>des horaires non-conflictuels
+                avec les autres groupes cours deja inscrits;       
+        end note
     e<<--si: ajout du GroupeCours avec succes
 end loop
 
-e->si: accepterChoixInscription
+e->si: accepterChoixInscription()
+    note right 
+        <b>Operation:</b> accepterChoixInscription()
+        <b>Precondition:</b>
+        - avoir au moins un groupeCours de selectionner        
+        <b>Postcondition:</b> 
+            - instance <i>message: <b>String</b> </i>
+            demande de confirmer avec authentification     
+    end note
 e<<--si: demander de s'authentifier
 
 e->si: confirmerInscription(cleEtudiant)
+    note right 
+        <b>Operation:</b> confirmerInscription(cleEtudiant)
+        <b>Precondition:</b>
+        - etre dans l'instance de confirmation        
+        <b>Postcondition:</b> 
+            - instance <i>message: <b>String</b> </i>
+            inscription terminée     
+    end note
 @enduml
