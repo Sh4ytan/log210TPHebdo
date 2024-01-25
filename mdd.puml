@@ -4,36 +4,41 @@ skinparam ArrowThickness 2
 skinparam ArrowColor #gray
 hide empty members
 title Modèle du domaine (adapté pour l'Université)
+
 class Universite <<Organisation>> {
   nom : String
   adresse : String
-  // other attributes specific to the university
+  
 }
 class Etudiant <<Role>> {
   matricule : String
   nom : String
-  prenom : String
-  // other attributes specific to the student
+  prenom : String  
 }
 class Cours <<Description d'entité>> {
-  code : String
-  intitule : String
-  // other attributes specific to the course
+  nom : String
+  sigle : String
+  prealable : Cours[ ]
 }
 class Inscription << Transaction >> {
-  // attributes specific to the inscription transaction
+  
+  
 }
 class GroupeCours <<Conteneur>> {
-  // attributes specific to the course group
+  groupe : int
+  listCours : Cours[ ]  
 }
 class Trimestre <<Catalogue, Conteneur>> {
-  // attributes specific to the trimestre
+  saison : String
+  dateDebut : Date
+  dateFin : Date
 }
 class AgentAdministratif <<Rôle>> {
-  // attributes specific to the administrative agent
+  nom : String
+  matricule : String
 }
 class Horaire <<Document administratif>> {
-  // attributes specific to the administrative agent
+  dateSession : String[ ][ ]
 }
 
 ' associations
